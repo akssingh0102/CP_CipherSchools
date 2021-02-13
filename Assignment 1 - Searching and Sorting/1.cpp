@@ -1,4 +1,3 @@
-//Two people meet each other 
 #include<iostream>
 #include<bits/stdc++.h>
 #include<unordered_set>
@@ -26,33 +25,6 @@ using namespace std;
 #define pq                  priority_queue <int, vector<int>, greater<int> >
 
 
-bool meet(int d1,int d2,int v1,int v2){
-        if(d1 > d2 && v1>=v2){
-            return false;
-        }
-        if(d1<d2 && v1<=v2){
-            return false;
-        }
-        if(d1==d2){
-            if(v1==v2)
-            return true;
-            else{
-                return false;
-            }
-        }
-
-        if(d1 < d2){
-            swap(d1,d2);
-            swap(v1,v2);
-        }
-        if((d1-d2)%(v2-v1)==0){
-            return true;
-        }
-        else{
-            return false;
-        }
-}
-
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -61,18 +33,6 @@ int main(){
     // freopen("input.txt", "r", stdin);
     // freopen("output.txt", "w", stdout);
     // #endif
-    int v1,v2,d1,d2;
-    d1=0;
-    d2=5;
-    v1=15;
-    v2=10;
-    if(meet(d1,d2,v1,v2)){
-        cout<<"YES";
-    }
-    else{
-        cout<<"NO";
-    }
-    
     
     
     return 0;
