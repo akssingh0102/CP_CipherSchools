@@ -1,3 +1,4 @@
+//                              Majority Element
 #include<iostream>
 #include<bits/stdc++.h>
 #include<unordered_set>
@@ -25,15 +26,45 @@ using namespace std;
 #define pq                  priority_queue <int, vector<int>, greater<int> >
 
 
-int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+int findCandididate(vector<int> &ele){
+    int candidate=ele[0];
+    int count=1;
+    for (int  i = 0; i < ele.size(); i++)
+    {
+        if(ele[i]==candidate){
+            count++;
+        }
+        else{
+            count--;
+        }
+        if(count==0){
+            candidate=ele[i];
+        }
+    }
+    return candidate;
 
-    // #ifndef ONLINE_JUDGE
-    // freopen("input.txt", "r", stdin);
-    // freopen("output.txt", "w", stdout);
-    // #endif
+}
+
+int majorityElement(vector <int> &ele){
+    int res=findCandididate(ele);
+    int count=0;
+    for (int i = 0; i < ele.size(); i++)
+    {
+        if(ele[i]==res){
+            count++;
+        }
+    }
+    if(count > ((ele.size())/2)){
+        return res;
+    }
+    else{
+        return -1;
+    }
     
-    
+}
+
+int main(){
+    // vector<int> ele = { 1, 1, 2, 1, 3, 5,1};
+  
     return 0;
 }
