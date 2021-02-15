@@ -23,45 +23,41 @@ using namespace std;
 #define forn(n)             for(int i=0;i<n;i++)
 #define fo(x,y)             for(int i=x;i<y;i++)
 #define pq                  priority_queue <int, vector<int>, greater<int> >
+vector <string> keyPad={"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
 
-
-void generateHelper(int x,vector <string> &res,int l,int r,string curr){
-    // string s;
-    if(r>l){
-        return;
-    }
-    if(l>x || r>x){
-        return;
-    }
-    if((l==x) && (r==x)){
+void phonePadHelper(vector<int> &number,vector<string> &res,int size,int curr_size,string curr){
+    if(curr_size==size){
         res.push_back(curr);
         return;
     }
 
-    generateHelper(x,res,l+1,r,curr+"(");
-    generateHelper(x,res,l,r+1,curr+")");
+    string possibleNum = keyPad[number[curr_size]];
+    for (int i = 0; i < possibleNum.length(); i++)
+    {
+        phonePadHelper(number,res,size,curr_size+1,curr+possibleNum[i]);
+    }
     
+}   
 
-}
-vector <string> generate(int x,vector <string> &res){
-    int l_count=0,r_count=0;
-    generateHelper(x,res,l_count,r_count,"");
+vector <string> phonePad(vector <int> &number,vector<string> &res){
+    int size=number.size();
+    phonePadHelper(number,res,size,0,"");
     return res;
 }
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
+    vector <int> number={2,3,4};
+    vector <string> res;
+    phonePad(number,res);
 
     // #ifndef ONLINE_JUDGE
     // freopen("input.txt", "r", stdin);
     // freopen("output.txt", "w", stdout);
     // #endif
-    int n=3;
-    vector <string> res;
-    generate(n,res);
-    for(auto xx : res){
-        cout<<xx<<endl;
+    for(string xx:res){
+        cout<<xx<<" ";
     }
     
     return 0;
