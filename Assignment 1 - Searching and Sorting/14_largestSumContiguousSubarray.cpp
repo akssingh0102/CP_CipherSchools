@@ -32,6 +32,7 @@ int largestContiguousArraySum(vector<int> vec) {
 }
 int main(){
     vector <int> s={-2, -3, 4, -1, -2, 1, 5, -3};
+    // vector <int> aa={10};
     cout<<largestContiguousArraySum(s);
     return 0;
 }
