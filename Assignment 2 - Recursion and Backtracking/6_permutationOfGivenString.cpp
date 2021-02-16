@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void generatePermutationHelper(string str, int start, int end, vector<string>& result) {
+void generatePermutationHelper(string &str, int start, int end, vector<string>& result) {
     if (start >= end) {
         result.push_back(str);
     } 
