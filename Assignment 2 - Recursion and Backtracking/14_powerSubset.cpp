@@ -24,7 +24,26 @@ using namespace std;
 #define fo(x,y)             for(int i=x;i<y;i++)
 #define pq                  priority_queue <int, vector<int>, greater<int> >
 
+void powerSubHelper(string Num,vector<string> &res,string curr,bool pass,int index){
+    if(index>=Num.length()){
+        return;
+    }
+    if(pass){
+        res.push_back(curr);
+        
+    }
 
+    for(int i=index;i<Num.length();i++){
+        powerSubHelper(Num,res,Num.substr(index,i+1),true,index+1);
+    }
+}
+
+vector <string> powerSub(string  &Num){
+    vector <string> res;
+    powerSubHelper(Num,res,"",false,0);
+    return res;
+}
+///////////////////////////////////////////// NOT DONE YET ///////////////////////////////////
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -33,6 +52,13 @@ int main(){
     // freopen("input.txt", "r", stdin);
     // freopen("output.txt", "w", stdout);
     // #endif
+    string Num = "2345";
+
+    vector <string> res=powerSub(Num);
+
+    for(string x:res){
+        cout<<x<<" ";
+    }
     
     
     return 0;
