@@ -77,65 +77,46 @@ bool idEmpty(Node **head){
         return false;
     }
 }
+Node *kAltReverse(Node *head, int k)  
+{  
+    Node* current = head;  
+    Node* next;  
+    Node* prev = NULL;  
+    int count = 0;  
+  
+    while (current != NULL && count < k)  
+    {  
+    next = current->next;  
+    current->next = prev;  
+    prev = current;  
+    current = next;  
+    count++;  
+    }  
+      
+    if(head != NULL)  
+    head->next = current;  
+  
+    count = 0;  
+    while(count < k-1 && current != NULL )  
+    {  
+    current = current->next;  
+    count++;  
+    }  
 
-int countNodes(struct Node* s) 
-{ 
-    int count = 0; 
-    while (s != NULL) { 
-        count++; 
-        s = s->next; 
-    } 
-    return count; 
-} 
+    if(current != NULL)  
+    current->next = kAltReverse(current->next, k);  
   
-void swapKth(struct Node** head_ref, int k) 
-{ 
-    int n = countNodes(*head_ref); 
-  
-    if (n < k) 
-        return; 
-  
-    if (2 * k - 1 == n) 
-        return; 
-  
-    Node* x = *head_ref; 
-    Node* x_prev = NULL; 
-    for (int i = 1; i < k; i++) { 
-        x_prev = x; 
-        x = x->next; 
-    } 
-  
-    Node* y = *head_ref; 
-    Node* y_prev = NULL; 
-    for (int i = 1; i < n - k + 1; i++) { 
-        y_prev = y; 
-        y = y->next; 
-    } 
-
-    if (x_prev) 
-        x_prev->next = y; 
-  
-    if (y_prev) 
-        y_prev->next = x; 
-  
-    Node* temp = x->next; 
-    x->next = y->next; 
-    y->next = temp; 
-  
-    if (k == 1) 
-        *head_ref = y; 
-    if (k == n) 
-        *head_ref = x; 
-} 
+    return prev;  
+}  
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
+    // #ifndef ONLINE_JUDGE
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // #endif
     
     
     return 0;
