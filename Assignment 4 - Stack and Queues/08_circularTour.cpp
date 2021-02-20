@@ -23,47 +23,49 @@ using namespace std;
 #define forn(n)             for(int i=0;i<n;i++)
 #define fo(x,y)             for(int i=x;i<y;i++)
 #define pq                  priority_queue <int, vector<int>, greater<int> >
-void printKMax(int arr[], int n, int k)
-{
-     
-    std::deque<int> Qi(k);
- 
-    int i;
-    for (i = 0; i < k; ++i) 
-    {
-        while ((!Qi.empty()) && arr[i] >= 
-                            arr[Qi.back()])
-           
-            Qi.pop_back();
- 
-        Qi.push_back(i);
-    }
- 
-    for (; i < n; ++i) 
-    {
-     
-        cout << arr[Qi.front()] << " ";
- 
-        while ((!Qi.empty()) && Qi.front() <= 
-                                           i - k)
-           
-            Qi.pop_front(); 
- 
-        while ((!Qi.empty()) && arr[i] >= 
-                             arr[Qi.back()])
-            Qi.pop_back();
- 
-        Qi.push_back(i);
-    }
- 
-    cout << arr[Qi.front()];
-}
- 
-int main()
-{
-    int arr[] = { 12, 1, 78, 90, 57, 89, 56 };
-    int n = sizeof(arr) / sizeof(arr[0]);
-    int k = 3;
-    printKMax(arr, n, k);
-    return 0;
-}
+
+class petrolPump  
+{ 
+    public: 
+    int petrol;  
+    int distance;  
+};  
+
+
+int printTour(petrolPump arr[], int n)  
+{  
+    int start = 0;  
+    int end = 1;  
+  
+    int curr_petrol = arr[start].petrol - arr[start].distance;  
+  
+    while (end != start || curr_petrol < 0)  
+    {  
+        while (curr_petrol < 0 && start != end)  
+        {  
+            curr_petrol -= arr[start].petrol - arr[start].distance;  
+            start = (start + 1) % n;  
+  
+            if (start == 0)  
+            return -1;  
+        }  
+  
+        curr_petrol += arr[end].petrol - arr[end].distance;  
+  
+        end = (end + 1) % n;  
+    }  
+  
+    return start;  
+}  
+  
+int main()  
+{  
+    petrolPump arr[] = {{6, 4}, {3, 6}, {7, 3}};  
+  
+    int n = sizeof(arr)/sizeof(arr[0]);  
+    int start = printTour(arr, n);  
+  
+    (start == -1)? cout<<"No solution": cout<<"Start = "<<start;  
+  
+    return 0;  
+}  

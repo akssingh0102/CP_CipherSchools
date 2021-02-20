@@ -23,47 +23,17 @@ using namespace std;
 #define forn(n)             for(int i=0;i<n;i++)
 #define fo(x,y)             for(int i=x;i<y;i++)
 #define pq                  priority_queue <int, vector<int>, greater<int> >
-void printKMax(int arr[], int n, int k)
-{
-     
-    std::deque<int> Qi(k);
- 
-    int i;
-    for (i = 0; i < k; ++i) 
-    {
-        while ((!Qi.empty()) && arr[i] >= 
-                            arr[Qi.back()])
-           
-            Qi.pop_back();
- 
-        Qi.push_back(i);
-    }
- 
-    for (; i < n; ++i) 
-    {
-     
-        cout << arr[Qi.front()] << " ";
- 
-        while ((!Qi.empty()) && Qi.front() <= 
-                                           i - k)
-           
-            Qi.pop_front(); 
- 
-        while ((!Qi.empty()) && arr[i] >= 
-                             arr[Qi.back()])
-            Qi.pop_back();
- 
-        Qi.push_back(i);
-    }
- 
-    cout << arr[Qi.front()];
-}
- 
-int main()
-{
-    int arr[] = { 12, 1, 78, 90, 57, 89, 56 };
-    int n = sizeof(arr) / sizeof(arr[0]);
-    int k = 3;
-    printKMax(arr, n, k);
+
+
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    #ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif
+    
+    
     return 0;
 }

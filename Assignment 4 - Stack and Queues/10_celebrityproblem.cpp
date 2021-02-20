@@ -23,47 +23,73 @@ using namespace std;
 #define forn(n)             for(int i=0;i<n;i++)
 #define fo(x,y)             for(int i=x;i<y;i++)
 #define pq                  priority_queue <int, vector<int>, greater<int> >
-void printKMax(int arr[], int n, int k)
+
+#define N 8
+
+bool MATRIX[N][N] = {{0, 0, 1, 0},
+                     {0, 0, 1, 0},
+                     {0, 0, 0, 0},
+                     {0, 0, 1, 0}};
+
+bool knows(int a, int b)
 {
-     
-    std::deque<int> Qi(k);
- 
-    int i;
-    for (i = 0; i < k; ++i) 
-    {
-        while ((!Qi.empty()) && arr[i] >= 
-                            arr[Qi.back()])
-           
-            Qi.pop_back();
- 
-        Qi.push_back(i);
-    }
- 
-    for (; i < n; ++i) 
-    {
-     
-        cout << arr[Qi.front()] << " ";
- 
-        while ((!Qi.empty()) && Qi.front() <= 
-                                           i - k)
-           
-            Qi.pop_front(); 
- 
-        while ((!Qi.empty()) && arr[i] >= 
-                             arr[Qi.back()])
-            Qi.pop_back();
- 
-        Qi.push_back(i);
-    }
- 
-    cout << arr[Qi.front()];
+    return MATRIX[a][b];
 }
- 
+
+int findCelebrity(int n)
+{
+    stack<int> s;
+
+    int C;
+
+    for (int i = 0; i < n; i++)
+        s.push(i);
+
+    int A = s.top();
+    s.pop();
+    int B = s.top();
+    s.pop();
+
+    while (s.size() > 1)
+    {
+        if (knows(A, B))
+        {
+            A = s.top();
+            s.pop();
+        }
+        else
+        {
+            B = s.top();
+            s.pop();
+        }
+    }
+    if (s.empty())
+        return -1;
+
+    C = s.top();
+    s.pop();
+
+    if (knows(C, B))
+        C = B;
+
+    if (knows(C, A))
+        C = A;
+
+    for (int i = 0; i < n; i++)
+    {
+        if ((i != C) &&
+            (knows(C, i) ||
+             !knows(i, C)))
+            return -1;
+    }
+
+    return C;
+}
+
 int main()
 {
-    int arr[] = { 12, 1, 78, 90, 57, 89, 56 };
-    int n = sizeof(arr) / sizeof(arr[0]);
-    int k = 3;
-    printKMax(arr, n, k);
+    int n = 4;
+    int id = findCelebrity(n);
+    id == -1 ? cout << "No celebrity" : cout << "Celebrity ID " << id;
     return 0;
 }
