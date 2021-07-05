@@ -25,48 +25,29 @@ using namespace std;
 #define pq                  priority_queue <int, vector<int>, greater<int> >
 #define mod                 1000000007
 
-class Solution{
-public:
-    int cal(int node, int a[], int cur, int sum, int n, vector<vector<int>> &dp)
-    {
-        if(node >= n){
-            if(cur*2 != sum) 
-                return 0;
-            else 
-                return 1;
-        }
-        if(cur*2 > sum) 
-            return dp[node][cur] = 0;
-        if(cur*2 == sum) 
-            return dp[node][cur] = 1;
-        if(dp[node][cur] != -1) 
-            return dp[node][cur];
-        int f = 0;
-        f = cal(node+1, a, cur+a[node], sum, n, dp) | cal(node+1, a, cur, sum, n, dp);
-        
-        return dp[node][cur] = f;
-    }
-    
-    int equalPartition(int N, int arr[])
-    {
-        int sum = 0;
-        for(int i = 0;i < N;i++)
-            sum += arr[i];
-        vector<vector<int>> dp(N, vector<int>(sum+1, -1));
-        int x = cal(0, arr, 0, sum, N, dp);
-        return x;
-    }
-};
+int dig[] = {1, 1, 2, 6, 4, 2, 2, 4, 2, 8};
+ 
+int lastNon0Digit(int n)
+{
+     if (n < 10)
+        return dig[n];
+ 
+    if (((n/10)%10)%2 == 0)
+        return (6*lastNon0Digit(n/5)*dig[n%10]) % 10;
+    else
+        return (4*lastNon0Digit(n/5)*dig[n%10]) % 10;
+}
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
+    // #ifndef ONLINE_JUDGE
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // #endif
     
+    cout<<lastNon0Digit(34);
     
     return 0;
 }

@@ -23,50 +23,47 @@ using namespace std;
 #define forn(n)             for(int i=0;i<n;i++)
 #define fo(x,y)             for(int i=x;i<y;i++)
 #define pq                  priority_queue <int, vector<int>, greater<int> >
-#define mod                 1000000007
-
-class Solution{
-public:
-    int cal(int node, int a[], int cur, int sum, int n, vector<vector<int>> &dp)
+void printKMax(int arr[], int n, int k)
+{
+     
+    std::deque<int> Qi(k);
+ 
+    int i;
+    for (i = 0; i < k; ++i) 
     {
-        if(node >= n){
-            if(cur*2 != sum) 
-                return 0;
-            else 
-                return 1;
-        }
-        if(cur*2 > sum) 
-            return dp[node][cur] = 0;
-        if(cur*2 == sum) 
-            return dp[node][cur] = 1;
-        if(dp[node][cur] != -1) 
-            return dp[node][cur];
-        int f = 0;
-        f = cal(node+1, a, cur+a[node], sum, n, dp) | cal(node+1, a, cur, sum, n, dp);
-        
-        return dp[node][cur] = f;
+        while ((!Qi.empty()) && arr[i] >= 
+                            arr[Qi.back()])
+           
+            Qi.pop_back();
+ 
+        Qi.push_back(i);
     }
-    
-    int equalPartition(int N, int arr[])
+ 
+    for (; i < n; ++i) 
     {
-        int sum = 0;
-        for(int i = 0;i < N;i++)
-            sum += arr[i];
-        vector<vector<int>> dp(N, vector<int>(sum+1, -1));
-        int x = cal(0, arr, 0, sum, N, dp);
-        return x;
+     
+        cout << arr[Qi.front()] << " ";
+ 
+        while ((!Qi.empty()) && Qi.front() <= 
+                                           i - k)
+           
+            Qi.pop_front(); 
+ 
+        while ((!Qi.empty()) && arr[i] >= 
+                             arr[Qi.back()])
+            Qi.pop_back();
+ 
+        Qi.push_back(i);
     }
-};
-
-int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
-    
-    
+ 
+    cout << arr[Qi.front()];
+}
+ 
+int main()
+{
+    int arr[] = { 12, 1, 78, 90, 57, 89, 56 };
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int k = 3;
+    printKMax(arr, n, k);
     return 0;
 }

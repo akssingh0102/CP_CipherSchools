@@ -1,7 +1,3 @@
-// Generate parentheses
-
-//https://practice.geeksforgeeks.org/problems/generate-all-possible-parentheses/1
-
 #include<iostream>
 #include<bits/stdc++.h>
 #include<unordered_set>
@@ -29,67 +25,36 @@ using namespace std;
 #define pq                  priority_queue <int, vector<int>, greater<int> >
 #define mod                 1000000007
 
-class Solution
+
+int sum(int num)
 {
-    public:
-    void AllParenthesisHelper(int open,int close,string curr,vector<string> &res){
-    if (open < 0 || close < 0) {
-        return;
-    }
-
-    if (open > close) {
-        return;
-    } 
-    else {
-        // open <= close
-         if (open == 0 && close == 0) {
-            res.push_back(curr);
-            return;
-        }
-    }
-
-        curr.push_back('(');
-        AllParenthesisHelper(open - 1, close, curr, res);
-        curr.pop_back();
-
-        curr.push_back(')');
-        AllParenthesisHelper(open, close - 1, curr, res);
-        curr.pop_back();
-    }
-
-
-    vector<string> AllParenthesis(int n) 
-    {
-        // Your code goes here 
-        int open,close;
-        open =n;
-        close=n;
-        vector<string> res;
-        AllParenthesisHelper(open,close,"",res);
-        return res;
-    }
-};
-
-int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
+    if (num <= 0)
+        return 0;
+    int ans = num % 10;
+    return ans + sum(num / 10);
+}
+int solve(int num)
+{
+    if (num / 10 == 0)
+        return num;
+    int newnum = sum(num);
+    return solve(newnum);
+}
+int32_t main()
+{
     #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     #endif
     
-    int n=3;
 
-    Solution ob;
-    vector<string> res=ob.AllParenthesis(n);
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
 
-    for (int i = 0; i < res.size(); i++)
-    {
-        cout<<res[i]<<endl;
-    }
-    
-
-    
+    int n, k;
+    cin >> n >> k;
+    int s = sum(n);
+    n *= k;
+    cout << solve(n);
     return 0;
 }

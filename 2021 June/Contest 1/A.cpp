@@ -1,7 +1,3 @@
-// Generate parentheses
-
-//https://practice.geeksforgeeks.org/problems/generate-all-possible-parentheses/1
-
 #include<iostream>
 #include<bits/stdc++.h>
 #include<unordered_set>
@@ -29,67 +25,65 @@ using namespace std;
 #define pq                  priority_queue <int, vector<int>, greater<int> >
 #define mod                 1000000007
 
-class Solution
-{
-    public:
-    void AllParenthesisHelper(int open,int close,string curr,vector<string> &res){
-    if (open < 0 || close < 0) {
-        return;
+
+string super_digit(string s)
+ {
+ 
+    
+    if(s.size()==1)
+     {
+     return s;   
     }
-
-    if (open > close) {
-        return;
-    } 
-    else {
-        // open <= close
-         if (open == 0 && close == 0) {
-            res.push_back(curr);
-            return;
-        }
+    
+    long long sum=0;
+    
+    long long  num;
+    
+    for(long long i=0;i<s.size();i++)
+        {
+        
+        num=s[i]-'0';
+        sum=sum+num;
     }
-
-        curr.push_back('(');
-        AllParenthesisHelper(open - 1, close, curr, res);
-        curr.pop_back();
-
-        curr.push_back(')');
-        AllParenthesisHelper(open, close - 1, curr, res);
-        curr.pop_back();
-    }
+    
+   return( super_digit(std::to_string(sum)));
+    
+    
+    
+}
 
 
-    vector<string> AllParenthesis(int n) 
-    {
-        // Your code goes here 
-        int open,close;
-        open =n;
-        close=n;
-        vector<string> res;
-        AllParenthesisHelper(open,close,"",res);
-        return res;
-    }
-};
-
-int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
+int main() {
+    
     #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     #endif
+
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
     
-    int n=3;
+    string n;
+    string k;
+     
+    cin>>n>>k;
+    
+    long long sum=0;
 
-    Solution ob;
-    vector<string> res=ob.AllParenthesis(n);
-
-    for (int i = 0; i < res.size(); i++)
+    int size= std::stoi(k);
+    
+    
+    long long i=0;
+    int num;
+    for(;i<n.size();i++)
     {
-        cout<<res[i]<<endl;
+        
+        num=n[i]-'0';
+        sum=sum+num;
+        
     }
     
-
+    cout<<super_digit(std::to_string(sum*size));
     
     return 0;
 }

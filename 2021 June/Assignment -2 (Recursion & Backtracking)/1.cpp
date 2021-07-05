@@ -1,7 +1,3 @@
-// Generate parentheses
-
-//https://practice.geeksforgeeks.org/problems/generate-all-possible-parentheses/1
-
 #include<iostream>
 #include<bits/stdc++.h>
 #include<unordered_set>
@@ -29,43 +25,37 @@ using namespace std;
 #define pq                  priority_queue <int, vector<int>, greater<int> >
 #define mod                 1000000007
 
+
+const char hashTable[10][5]={"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"}; 
+
 class Solution
 {
     public:
-    void AllParenthesisHelper(int open,int close,string curr,vector<string> &res){
-    if (open < 0 || close < 0) {
-        return;
-    }
-
-    if (open > close) {
-        return;
-    } 
-    else {
-        // open <= close
-         if (open == 0 && close == 0) {
-            res.push_back(curr);
-            return;
-        }
-    }
-
-        curr.push_back('(');
-        AllParenthesisHelper(open - 1, close, curr, res);
-        curr.pop_back();
-
-        curr.push_back(')');
-        AllParenthesisHelper(open, close - 1, curr, res);
-        curr.pop_back();
-    }
-
-
-    vector<string> AllParenthesis(int n) 
+    void printWordsUtil(int number[],int curr_digit,string output,int n,vector <string> &res) 
     {
-        // Your code goes here 
-        int open,close;
-        open =n;
-        close=n;
-        vector<string> res;
-        AllParenthesisHelper(open,close,"",res);
+        int i; 
+        if (curr_digit == n) 
+        { 
+            res.push_back(output);
+            return ; 
+        } 
+      
+        for (i=0; i<strlen(hashTable[number[curr_digit]]); i++) 
+        { 
+            output.push_back(hashTable[number[curr_digit]][i]); 
+            printWordsUtil(number, curr_digit+1, output, n, res); 
+            if (number[curr_digit] == 0 || number[curr_digit] == 1) 
+                return; 
+            output.pop_back();
+        } 
+    } 
+    
+    vector<string> possibleWords(int *a, int &N)
+    {
+        vector <string> res;
+        string result;
+        printWordsUtil(a, 0, result, N, res);
+        
         return res;
     }
 };
@@ -78,18 +68,16 @@ int main(){
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     #endif
-    
-    int n=3;
-
     Solution ob;
-    vector<string> res=ob.AllParenthesis(n);
+    int N=3;
+    int arr[] = {3,4,5};
+    vector<string> res = ob.possibleWords(arr,N);
 
     for (int i = 0; i < res.size(); i++)
     {
         cout<<res[i]<<endl;
     }
     
-
     
     return 0;
 }

@@ -23,50 +23,73 @@ using namespace std;
 #define forn(n)             for(int i=0;i<n;i++)
 #define fo(x,y)             for(int i=x;i<y;i++)
 #define pq                  priority_queue <int, vector<int>, greater<int> >
-#define mod                 1000000007
 
-class Solution{
-public:
-    int cal(int node, int a[], int cur, int sum, int n, vector<vector<int>> &dp)
+#define N 8
+
+bool MATRIX[N][N] = {{0, 0, 1, 0},
+                     {0, 0, 1, 0},
+                     {0, 0, 0, 0},
+                     {0, 0, 1, 0}};
+
+bool knows(int a, int b)
+{
+    return MATRIX[a][b];
+}
+
+int findCelebrity(int n)
+{
+    stack<int> s;
+
+    int C;
+
+    for (int i = 0; i < n; i++)
+        s.push(i);
+
+    int A = s.top();
+    s.pop();
+    int B = s.top();
+    s.pop();
+
+    while (s.size() > 1)
     {
-        if(node >= n){
-            if(cur*2 != sum) 
-                return 0;
-            else 
-                return 1;
+        if (knows(A, B))
+        {
+            A = s.top();
+            s.pop();
         }
-        if(cur*2 > sum) 
-            return dp[node][cur] = 0;
-        if(cur*2 == sum) 
-            return dp[node][cur] = 1;
-        if(dp[node][cur] != -1) 
-            return dp[node][cur];
-        int f = 0;
-        f = cal(node+1, a, cur+a[node], sum, n, dp) | cal(node+1, a, cur, sum, n, dp);
-        
-        return dp[node][cur] = f;
+        else
+        {
+            B = s.top();
+            s.pop();
+        }
     }
-    
-    int equalPartition(int N, int arr[])
+    if (s.empty())
+        return -1;
+
+    C = s.top();
+    s.pop();
+
+    if (knows(C, B))
+        C = B;
+
+    if (knows(C, A))
+        C = A;
+
+    for (int i = 0; i < n; i++)
     {
-        int sum = 0;
-        for(int i = 0;i < N;i++)
-            sum += arr[i];
-        vector<vector<int>> dp(N, vector<int>(sum+1, -1));
-        int x = cal(0, arr, 0, sum, N, dp);
-        return x;
+        if ((i != C) &&
+            (knows(C, i) ||
+             !knows(i, C)))
+            return -1;
     }
-};
 
-int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    return C;
+}
 
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
-    
-    
+int main()
+{
+    int n = 4;
+    int id = findCelebrity(n);
+    id == -1 ? cout << "No celebrity" : cout << "Celebrity ID " << id;
     return 0;
 }

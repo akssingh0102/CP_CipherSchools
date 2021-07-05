@@ -15,7 +15,7 @@ using namespace std;
 #define full(a)             (a.begin(),a.end())
 #define vc                  vector<char>
 #define iz(n)               int n; cin>>n;
-#define iz2(n,m)             int n,m; cin>>n>>m;
+#define iz2(n,type)             int n,type; cin>>n>>type;
 #define mii                 map<int,int>
 #define setbits(x)          __builtin_popcountll(x)
 #define zerobits(x)         __builtin_ctzll(x)    //zeros before first 1
@@ -25,48 +25,48 @@ using namespace std;
 #define pq                  priority_queue <int, vector<int>, greater<int> >
 #define mod                 1000000007
 
-class Solution{
-public:
-    int cal(int node, int a[], int cur, int sum, int n, vector<vector<int>> &dp)
-    {
-        if(node >= n){
-            if(cur*2 != sum) 
-                return 0;
-            else 
-                return 1;
-        }
-        if(cur*2 > sum) 
-            return dp[node][cur] = 0;
-        if(cur*2 == sum) 
-            return dp[node][cur] = 1;
-        if(dp[node][cur] != -1) 
-            return dp[node][cur];
-        int f = 0;
-        f = cal(node+1, a, cur+a[node], sum, n, dp) | cal(node+1, a, cur, sum, n, dp);
-        
-        return dp[node][cur] = f;
-    }
-    
-    int equalPartition(int N, int arr[])
-    {
-        int sum = 0;
-        for(int i = 0;i < N;i++)
-            sum += arr[i];
-        vector<vector<int>> dp(N, vector<int>(sum+1, -1));
-        int x = cal(0, arr, 0, sum, N, dp);
-        return x;
-    }
-};
 
-int main(){
+int main() {
+
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
-    
-    
+    // #ifndef ONLINE_JUDGE
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // #endif
+
+    stack<long int> s;
+    long int n,x;
+    int type;
+    cin>>n;
+    while(n--)
+    {
+        cin>>type;
+        if(type==1)
+        {
+            cin>>x;
+            if(s.empty())
+            s.push(x);
+            else
+            {
+                if(x>s.top())
+                    s.push(x);
+                else
+                    s.push(s.top());
+            }    
+                
+        }
+        if(type==2)
+        {
+            if(!s.empty())
+                s.pop();
+        }
+        if(type==3)
+        {
+            cout<<s.top()<<endl;
+        }      
+        
+    }
     return 0;
 }

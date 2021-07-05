@@ -1,7 +1,3 @@
-// Generate parentheses
-
-//https://practice.geeksforgeeks.org/problems/generate-all-possible-parentheses/1
-
 #include<iostream>
 #include<bits/stdc++.h>
 #include<unordered_set>
@@ -29,46 +25,6 @@ using namespace std;
 #define pq                  priority_queue <int, vector<int>, greater<int> >
 #define mod                 1000000007
 
-class Solution
-{
-    public:
-    void AllParenthesisHelper(int open,int close,string curr,vector<string> &res){
-    if (open < 0 || close < 0) {
-        return;
-    }
-
-    if (open > close) {
-        return;
-    } 
-    else {
-        // open <= close
-         if (open == 0 && close == 0) {
-            res.push_back(curr);
-            return;
-        }
-    }
-
-        curr.push_back('(');
-        AllParenthesisHelper(open - 1, close, curr, res);
-        curr.pop_back();
-
-        curr.push_back(')');
-        AllParenthesisHelper(open, close - 1, curr, res);
-        curr.pop_back();
-    }
-
-
-    vector<string> AllParenthesis(int n) 
-    {
-        // Your code goes here 
-        int open,close;
-        open =n;
-        close=n;
-        vector<string> res;
-        AllParenthesisHelper(open,close,"",res);
-        return res;
-    }
-};
 
 int main(){
     ios_base::sync_with_stdio(false);
@@ -79,17 +35,6 @@ int main(){
     freopen("output.txt", "w", stdout);
     #endif
     
-    int n=3;
-
-    Solution ob;
-    vector<string> res=ob.AllParenthesis(n);
-
-    for (int i = 0; i < res.size(); i++)
-    {
-        cout<<res[i]<<endl;
-    }
-    
-
     
     return 0;
 }

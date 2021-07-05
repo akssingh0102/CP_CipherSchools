@@ -1,7 +1,3 @@
-// Generate parentheses
-
-//https://practice.geeksforgeeks.org/problems/generate-all-possible-parentheses/1
-
 #include<iostream>
 #include<bits/stdc++.h>
 #include<unordered_set>
@@ -29,67 +25,51 @@ using namespace std;
 #define pq                  priority_queue <int, vector<int>, greater<int> >
 #define mod                 1000000007
 
-class Solution
-{
-    public:
-    void AllParenthesisHelper(int open,int close,string curr,vector<string> &res){
-    if (open < 0 || close < 0) {
-        return;
+
+int pairs(vector < int > a,int k) {
+   int ans = 0;
+    map<int, int> nn;
+    for(int i=0;i<a.size();i++) {
+        nn[a[i]] = 1;
     }
-
-    if (open > close) {
-        return;
-    } 
-    else {
-        // open <= close
-         if (open == 0 && close == 0) {
-            res.push_back(curr);
-            return;
-        }
+    for(int i=0;i<a.size();i++) {
+        if ( nn.find(a[i]-k) == nn.end() ) {
+          
+        } else {
+          ans++;
+        }   
     }
+    return ans;
+}
 
-        curr.push_back('(');
-        AllParenthesisHelper(open - 1, close, curr, res);
-        curr.pop_back();
-
-        curr.push_back(')');
-        AllParenthesisHelper(open, close - 1, curr, res);
-        curr.pop_back();
-    }
-
-
-    vector<string> AllParenthesis(int n) 
-    {
-        // Your code goes here 
-        int open,close;
-        open =n;
-        close=n;
-        vector<string> res;
-        AllParenthesisHelper(open,close,"",res);
-        return res;
-    }
-};
 
 int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
 
     #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     #endif
     
-    int n=3;
 
-    Solution ob;
-    vector<string> res=ob.AllParenthesis(n);
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
 
-    for (int i = 0; i < res.size(); i++)
-    {
-        cout<<res[i]<<endl;
+    int n;
+    long long k;
+    
+    cin >> n >> k;
+
+
+    vector<long long> nn(n);
+    for(int i=0;i<n;i++){ 
+        cin >> nn[i];
     }
     
-
+    sort(nn.begin(), nn.end());
     
-    return 0;
+    int count = 0;
+    for(int i=0;i<n;i++){
+     if(binary_search(nn.begin(), nn.end(), nn[i]+k)) count++;
+    }
+    cout << count << endl;
 }

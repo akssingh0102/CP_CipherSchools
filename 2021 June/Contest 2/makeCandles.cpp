@@ -1,7 +1,3 @@
-// Generate parentheses
-
-//https://practice.geeksforgeeks.org/problems/generate-all-possible-parentheses/1
-
 #include<iostream>
 #include<bits/stdc++.h>
 #include<unordered_set>
@@ -29,48 +25,34 @@ using namespace std;
 #define pq                  priority_queue <int, vector<int>, greater<int> >
 #define mod                 1000000007
 
-class Solution
-{
-    public:
-    void AllParenthesisHelper(int open,int close,string curr,vector<string> &res){
-    if (open < 0 || close < 0) {
-        return;
-    }
-
-    if (open > close) {
-        return;
-    } 
-    else {
-        // open <= close
-         if (open == 0 && close == 0) {
-            res.push_back(curr);
-            return;
+bool check(ll mac, ll workers, ll price, ll target, ll rounds) {
+    if (mac >= (target+workers-1)/workers) return true;
+    ll cur = mac*workers;
+    rounds--;
+    if (rounds == 0) return false;
+    while (1) {
+        ll rem = target - cur;
+        ll rnds = (rem + mac*workers - 1) / (mac*workers);
+        if (rnds <= rounds) return true;
+        if (cur < price) {
+          rem = price - cur;
+          rnds = (rem + mac*workers - 1) / (mac*workers);
+          rounds -= rnds;
+          if (rounds < 1) return false;
+          cur += rnds * mac * workers;
+        }
+        cur -= price;
+        if (mac > workers) {
+          workers++;
+        } else {
+          mac++;
         }
     }
-
-        curr.push_back('(');
-        AllParenthesisHelper(open - 1, close, curr, res);
-        curr.pop_back();
-
-        curr.push_back(')');
-        AllParenthesisHelper(open, close - 1, curr, res);
-        curr.pop_back();
-    }
-
-
-    vector<string> AllParenthesis(int n) 
-    {
-        // Your code goes here 
-        int open,close;
-        open =n;
-        close=n;
-        vector<string> res;
-        AllParenthesisHelper(open,close,"",res);
-        return res;
-    }
-};
+    return false;
+}
 
 int main(){
+
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
@@ -79,17 +61,18 @@ int main(){
     freopen("output.txt", "w", stdout);
     #endif
     
-    int n=3;
-
-    Solution ob;
-    vector<string> res=ob.AllParenthesis(n);
-
-    for (int i = 0; i < res.size(); i++)
-    {
-        cout<<res[i]<<endl;
+    cin.tie(0);
+    ll m, w, p, n;
+    cin >> m >> w >> p >> n;
+    ll a = 1, b = 1000000000000LL;
+    while (a < b) {
+        ll mid = (a + b) >> 1;
+        if (check(m, w, p, n, mid)) {
+          b = mid;
+        } else {
+          a = mid + 1;
+        }
     }
-    
-
-    
+    cout << a << "\n";
     return 0;
 }

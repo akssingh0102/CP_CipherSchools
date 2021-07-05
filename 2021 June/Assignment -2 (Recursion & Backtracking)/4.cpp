@@ -1,7 +1,3 @@
-// Generate parentheses
-
-//https://practice.geeksforgeeks.org/problems/generate-all-possible-parentheses/1
-
 #include<iostream>
 #include<bits/stdc++.h>
 #include<unordered_set>
@@ -29,67 +25,38 @@ using namespace std;
 #define pq                  priority_queue <int, vector<int>, greater<int> >
 #define mod                 1000000007
 
-class Solution
+class Solution {
+  public:
+    long long int numberOfPaths(int m, int n)
 {
-    public:
-    void AllParenthesisHelper(int open,int close,string curr,vector<string> &res){
-    if (open < 0 || close < 0) {
-        return;
-    }
+    long long int count[m][n];
 
-    if (open > close) {
-        return;
-    } 
-    else {
-        // open <= close
-         if (open == 0 && close == 0) {
-            res.push_back(curr);
-            return;
-        }
-    }
+    for (int i = 0; i < m; i++)
+        count[i][0] = 1;
 
-        curr.push_back('(');
-        AllParenthesisHelper(open - 1, close, curr, res);
-        curr.pop_back();
+    for (int j = 0; j < n; j++)
+        count[0][j] = 1;
 
-        curr.push_back(')');
-        AllParenthesisHelper(open, close - 1, curr, res);
-        curr.pop_back();
-    }
-
-
-    vector<string> AllParenthesis(int n) 
+    for (int i = 1; i < m; i++)
     {
-        // Your code goes here 
-        int open,close;
-        open =n;
-        close=n;
-        vector<string> res;
-        AllParenthesisHelper(open,close,"",res);
-        return res;
+        for (int j = 1; j < n; j++)
+            count[i][j] = (count[i-1][j]%1000000007 + count[i][j-1]%1000000007)%1000000007; 
+
     }
+    return count[m-1][n-1]%1000000007;
+}
 };
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
-    
-    int n=3;
-
+    // #ifndef ONLINE_JUDGE
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // #endif
     Solution ob;
-    vector<string> res=ob.AllParenthesis(n);
-
-    for (int i = 0; i < res.size(); i++)
-    {
-        cout<<res[i]<<endl;
-    }
-    
-
+    cout<<ob.numberOfPaths(4,4);
     
     return 0;
 }

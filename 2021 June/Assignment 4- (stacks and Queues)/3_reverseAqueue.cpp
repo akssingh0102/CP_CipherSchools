@@ -23,49 +23,60 @@ using namespace std;
 #define forn(n)             for(int i=0;i<n;i++)
 #define fo(x,y)             for(int i=x;i<y;i++)
 #define pq                  priority_queue <int, vector<int>, greater<int> >
-#define mod                 1000000007
+// void addAtFront(queue<int> &q,int data){
+//     if(q.size()==0){
+//         q.push(data);
+//     }
+//     else{
+//         int data_1=q.front();
+//         addAtFront(q,data);
 
-class Solution{
-public:
-    int cal(int node, int a[], int cur, int sum, int n, vector<vector<int>> &dp)
-    {
-        if(node >= n){
-            if(cur*2 != sum) 
-                return 0;
-            else 
-                return 1;
-        }
-        if(cur*2 > sum) 
-            return dp[node][cur] = 0;
-        if(cur*2 == sum) 
-            return dp[node][cur] = 1;
-        if(dp[node][cur] != -1) 
-            return dp[node][cur];
-        int f = 0;
-        f = cal(node+1, a, cur+a[node], sum, n, dp) | cal(node+1, a, cur, sum, n, dp);
-        
-        return dp[node][cur] = f;
+//         q.push(data_1);
+//     }
+// }
+void queueReverse(queue<int> &q){
+    if(q.size()==0){
+        return;
     }
-    
-    int equalPartition(int N, int arr[])
-    {
-        int sum = 0;
-        for(int i = 0;i < N;i++)
-            sum += arr[i];
-        vector<vector<int>> dp(N, vector<int>(sum+1, -1));
-        int x = cal(0, arr, 0, sum, N, dp);
-        return x;
+
+    int data=q.front();
+    q.pop();
+    queueReverse(q);
+
+    q.push(data);
+}
+
+void queuePrint(queue<int> q){
+    while(q.size()){
+        cout<<q.front()<<" ";
+        q.pop();
     }
-};
+}
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
+    // #ifndef ONLINE_JUDGE
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // #endif
+
+    queue <int> q;
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    q.push(4);
+    q.push(5);
+    q.push(6);
+    queuePrint(q);
+    cout<<endl;
+    queueReverse(q);
+
+    queuePrint(q);
+
+
+    
     
     
     return 0;

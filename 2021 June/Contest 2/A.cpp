@@ -1,7 +1,3 @@
-// Generate parentheses
-
-//https://practice.geeksforgeeks.org/problems/generate-all-possible-parentheses/1
-
 #include<iostream>
 #include<bits/stdc++.h>
 #include<unordered_set>
@@ -29,46 +25,6 @@ using namespace std;
 #define pq                  priority_queue <int, vector<int>, greater<int> >
 #define mod                 1000000007
 
-class Solution
-{
-    public:
-    void AllParenthesisHelper(int open,int close,string curr,vector<string> &res){
-    if (open < 0 || close < 0) {
-        return;
-    }
-
-    if (open > close) {
-        return;
-    } 
-    else {
-        // open <= close
-         if (open == 0 && close == 0) {
-            res.push_back(curr);
-            return;
-        }
-    }
-
-        curr.push_back('(');
-        AllParenthesisHelper(open - 1, close, curr, res);
-        curr.pop_back();
-
-        curr.push_back(')');
-        AllParenthesisHelper(open, close - 1, curr, res);
-        curr.pop_back();
-    }
-
-
-    vector<string> AllParenthesis(int n) 
-    {
-        // Your code goes here 
-        int open,close;
-        open =n;
-        close=n;
-        vector<string> res;
-        AllParenthesisHelper(open,close,"",res);
-        return res;
-    }
-};
 
 int main(){
     ios_base::sync_with_stdio(false);
@@ -79,17 +35,79 @@ int main(){
     freopen("output.txt", "w", stdout);
     #endif
     
-    int n=3;
-
-    Solution ob;
-    vector<string> res=ob.AllParenthesis(n);
-
-    for (int i = 0; i < res.size(); i++)
-    {
-        cout<<res[i]<<endl;
-    }
-    
-
     
     return 0;
+}
+
+bool  check(long m , long w , long p , long tt , long round)
+{
+
+    if(m >= (tt + w-1)/w)
+    return true;
+
+    long curr = m*w;
+    round--;
+
+    if(round == 0)
+    return false;
+
+    while(true)
+    {
+
+        long rem = tt - curr;
+
+        long req = (rem + m*w -1) /( m*w);
+
+        if(round >= req)
+        return true;
+
+
+        if(curr < p)
+        {
+            rem = p-curr;
+
+            req = (rem  + m*w -1 )/(m*w);
+
+            round = round - req;
+
+            if(round < 1)
+            return false;
+
+            curr += req*m*w;
+        }
+
+
+        curr = curr-p;
+        if( m > w)
+        w++;
+        else
+        m++;
+
+    }
+
+
+}
+
+
+static long minimumPasses(long m, long w, long p, long n) 
+{
+
+    long min = 1;
+    long max = 10000000000000L; 
+
+    while(min< max)
+    {
+        long mid = (min+max)/2;
+
+        if(check(m , w , p , n ,mid))
+        {
+            max = mid;
+        }
+        else
+        {
+            min = mid+1;
+        }
+    }
+
+    return min;
 }

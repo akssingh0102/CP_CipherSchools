@@ -23,50 +23,81 @@ using namespace std;
 #define forn(n)             for(int i=0;i<n;i++)
 #define fo(x,y)             for(int i=x;i<y;i++)
 #define pq                  priority_queue <int, vector<int>, greater<int> >
-#define mod                 1000000007
 
-class Solution{
+using namespace std;
+ 
+#define MAX 1000
+ 
+class Stack {
+    int size;
+ 
 public:
-    int cal(int node, int a[], int cur, int sum, int n, vector<vector<int>> &dp)
+    int a[MAX]; // Maximum size of Stack
+
+    Stack()
     {
-        if(node >= n){
-            if(cur*2 != sum) 
-                return 0;
-            else 
-                return 1;
-        }
-        if(cur*2 > sum) 
-            return dp[node][cur] = 0;
-        if(cur*2 == sum) 
-            return dp[node][cur] = 1;
-        if(dp[node][cur] != -1) 
-            return dp[node][cur];
-        int f = 0;
-        f = cal(node+1, a, cur+a[node], sum, n, dp) | cal(node+1, a, cur, sum, n, dp);
-        
-        return dp[node][cur] = f;
+        size = -1;
     }
-    
-    int equalPartition(int N, int arr[])
-    {
-        int sum = 0;
-        for(int i = 0;i < N;i++)
-            sum += arr[i];
-        vector<vector<int>> dp(N, vector<int>(sum+1, -1));
-        int x = cal(0, arr, 0, sum, N, dp);
+    bool push(int x);
+    int pop();
+    int top();
+    bool isEmpty();
+};
+ 
+bool Stack::push(int x)
+{
+    if (size >= (MAX - 1)) {
+        cout << "Stack Overflow";
+        return false;
+    }
+    else {
+        a[++size] = x;
+        cout << x << " pushed into stack\n";
+        return true;
+    }
+}
+ 
+int Stack::pop()
+{
+    if (size < 0) {
+        cout << "Stack Underflow";
+        return 0;
+    }
+    else {
+        int x = a[size--];
         return x;
     }
-};
+}
+int Stack::top()
+{
+    if (size < 0) {
+        cout << "Stack is Empty";
+        return 0;
+    }
+    else {
+        int x = a[size];
+        return x;
+    }
+}
+ 
+bool Stack::isEmpty()
+{
+    return (size < 0);
+}
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
+    // #ifndef ONLINE_JUDGE
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // #endif
+    Stack s;
+    s.push(1);
+    cout<<s.top();
     
+
     
     return 0;
 }

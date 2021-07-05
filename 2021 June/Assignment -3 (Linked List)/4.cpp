@@ -1,7 +1,3 @@
-// Generate parentheses
-
-//https://practice.geeksforgeeks.org/problems/generate-all-possible-parentheses/1
-
 #include<iostream>
 #include<bits/stdc++.h>
 #include<unordered_set>
@@ -27,48 +23,80 @@ using namespace std;
 #define forn(n)             for(int i=0;i<n;i++)
 #define fo(x,y)             for(int i=x;i<y;i++)
 #define pq                  priority_queue <int, vector<int>, greater<int> >
-#define mod                 1000000007
-
-class Solution
-{
-    public:
-    void AllParenthesisHelper(int open,int close,string curr,vector<string> &res){
-    if (open < 0 || close < 0) {
-        return;
+struct Node{
+    int data;
+    Node* next;
+    Node(){
+        Node(0);
     }
-
-    if (open > close) {
-        return;
-    } 
-    else {
-        // open <= close
-         if (open == 0 && close == 0) {
-            res.push_back(curr);
-            return;
-        }
-    }
-
-        curr.push_back('(');
-        AllParenthesisHelper(open - 1, close, curr, res);
-        curr.pop_back();
-
-        curr.push_back(')');
-        AllParenthesisHelper(open, close - 1, curr, res);
-        curr.pop_back();
-    }
-
-
-    vector<string> AllParenthesis(int n) 
-    {
-        // Your code goes here 
-        int open,close;
-        open =n;
-        close=n;
-        vector<string> res;
-        AllParenthesisHelper(open,close,"",res);
-        return res;
+    Node(int x){
+        data=x;
+        next=NULL;
     }
 };
+
+void addAtEnd(Node **head,int x){
+    Node *curr=*head;
+    Node *temp=new Node(x);
+    if(curr==NULL){
+        *head=temp;
+    }
+    else{
+        while(curr->next!=NULL){
+            curr=curr->next;
+        }
+        curr->next=temp;
+    }
+}
+void addAtFront(Node **head,int x){
+    Node *temp=new Node(x);
+    if(*head==NULL){
+        *head=temp;
+    }
+    else{
+        temp->next=*head;
+        *head=temp;
+    }
+
+}
+
+void printAll(Node **head){
+    Node *curr=*head;
+    while(curr!=NULL){
+        cout<<curr->data<<" ";
+        curr=curr->next;
+    }
+}
+
+bool idEmpty(Node **head){
+    if(*head==NULL){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+void loopDetechandRemove(Node &head){
+    Node *slow,*fast;
+    slow=fast=head;
+    fast=fast->next;
+    while (fast!=NULL || fast->next!=NULL)
+    {
+        if(fast==slow)
+        break;
+
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    slow=head;
+    while(slow->next!=fast->next){
+        slow=slow->next;
+        fast=fast->next;
+    }
+    
+    fast->next=NULL;
+}
 
 int main(){
     ios_base::sync_with_stdio(false);
@@ -79,17 +107,6 @@ int main(){
     freopen("output.txt", "w", stdout);
     #endif
     
-    int n=3;
-
-    Solution ob;
-    vector<string> res=ob.AllParenthesis(n);
-
-    for (int i = 0; i < res.size(); i++)
-    {
-        cout<<res[i]<<endl;
-    }
-    
-
     
     return 0;
 }
